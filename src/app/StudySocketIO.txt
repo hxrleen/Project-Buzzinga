@@ -1,0 +1,108 @@
+emit : ek event ki tarah , jo i will trigger
+on : ek event listner
+
+
+emit - >  thisEvent (data)
+on  -> thisEvent(data)
+
+Broadcadt: thisEvent(data)  -> socket.braodcast().emit
+isme socket ne broadcast kia message baki sare sockets ko dikhega
+
+to -> socket.to().emit
+to trigger event in a particualr room
+for establishing personal chat,to mein hme rom id bhejna hai
+jis rrom mein mesage bhejna hota hai
+
+everybody is in a individual room   -->  which rrom id is the 
+socket id
+
+agar socet A ko socket B se baat krni hai 
+socket a emit(to--> socket b ki id)
+
+
+if i want to do group chat , 
+then all those sockets in a group can be placed in a room
+
+
+join --> to join people
+socket.join(room name)
+
+
+alag alg port pe connect krne ke liye : CORS Package
+npm i cors
+
+
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const crypto = require('crypto'); 
+
+const app = express();
+const httpServer = http.createServer(app);
+const io = socketIo(httpServer, {
+  cors: { origin: '*' }
+});
+
+const port = 3000;
+let users = {};
+let rooms = {};  // to store active rroms
+
+
+//emit : ek event ki taraf hai , jo i will triger
+//.on : el listner ki trah hai
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  // Assign a default name or prompt for the user to set their name
+  users[socket.id] = `User${socket.id.substr(0, 2)}`; // Default name
+  io.emit('users', users); // Emit the users list to all clients
+
+  socket.on('message', (message) => {
+    console.log('Message received:', message);
+    io.emit('message', `${users[socket.id]}: ${message}`);
+  });
+
+  //createRoom
+
+  socket.on('createRoom', () => {
+    const roomId = crypto.randomBytes(3).toString('hex'); //  random room ID
+    rooms[roomId] = [socket.id]; // Store the room with the creator's socket ID------important
+    socket.join(roomId);
+    socket.emit('roomCreated', roomId); // Emit the roomId only to the creator
+  });
+
+  socket.on('joinRoom', (roomId) => {
+    if (rooms[roomId]) {
+      rooms[roomId].push(socket.id); // Add the user to the room
+      socket.join(roomId);
+      io.to(roomId).emit('users', `${users[socket.id]} joined the room!`); // Notify the room
+    } else {
+      socket.emit('message', 'Room not found!'); // Notify if room not found
+    }
+  });
+
+  // Handling buzzer press
+  socket.on('buzzer', () => {
+    const timestamp = new Date().toLocaleTimeString();
+    io.emit('buzzer', { name: users[socket.id], timestamp });
+  });
+
+  // Handle setting a custom name for the user
+  socket.on('setName', (name) => {
+    if (name && name.trim()) {
+      users[socket.id] = name;
+      io.emit('users', users); // Update all client wiyth new user list
+    }
+  });
+
+  // Handling disconnection
+  socket.on('disconnect', () => {
+    console.log('a user disconnected!');
+    delete users[socket.id];
+    io.emit('users', users); // Update all clients with the user list after a disconnection
+  });
+});
+
+httpServer.listen(port, () => console.log(`listening on port ${port}`));
+
