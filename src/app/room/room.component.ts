@@ -34,7 +34,7 @@ export class RoomComponent implements OnInit {
       }
     });
 
-    this.buzzService.getUsers().subscribe((users: { id: string; name: string; isHost: boolean }[]) => {
+    this.buzzService.getUsers().subscribe((users: { id: string; name: string; isHost: boolean }[]) => {      
       this.users = users;
     });
 

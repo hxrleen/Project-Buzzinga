@@ -43,7 +43,7 @@ export class BuzzComponent implements OnInit {
     });
 
     this.buzzService.getUsers().subscribe((users: { id: string; name: string; isHost: boolean }[]) => {
-      console.log('Received users:', users); 
+      console.log('updated users:', users); 
       this.users = users;
     });
 
@@ -61,7 +61,7 @@ export class BuzzComponent implements OnInit {
     });
 
     this.buzzService.getNotifications().subscribe(notification => {
-      alert(notification); // Display notification (you might want a more sophisticated approach)
+      alert(notification); 
     });
   }
 
