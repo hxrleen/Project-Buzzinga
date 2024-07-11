@@ -1,3 +1,4 @@
+// room.component.ts
 import { Component, OnInit } from '@angular/core';
 import { BuzzService } from '../buzz.service';
 import { ActivatedRoute, Router } from '@angular/router';
