@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of , Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { io } from 'socket.io-client';
 
 @Injectable({
@@ -110,11 +110,11 @@ export class BuzzService {
 
   public isValidRoom(roomId: string): Observable<boolean> {
     const isValid = !!roomId && roomId.length > 3; // Dummy aaheyyyyy
-    return of(isValid); 
+    return of(isValid);
   }
   public leaveRoom(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.socket.emit('leaveRoom', (response: string) => {        
+      this.socket.emit('leaveRoom', (response: string) => {
         if (response === 'success') {
           resolve();
         } else {
@@ -122,5 +122,5 @@ export class BuzzService {
         }
       });
     });
-  }  
+  }
 }

@@ -9,20 +9,15 @@ import { BuzzComponent } from './buzz/buzz.component';
 import { RoomComponent } from './room/room.component';
 import { HttpClientModule } from '@angular/common/http';
 
-
 @NgModule({
   declarations: [
-    AppComponent,         
-    FirstPageComponent, 
-    BuzzComponent, RoomComponent        
+    AppComponent,
+    FirstPageComponent,
+    BuzzComponent,
+    RoomComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
-  bootstrap: [AppComponent] 
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
