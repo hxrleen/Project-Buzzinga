@@ -6,7 +6,6 @@
         <img src="assets/listening_6683916.png" alt="User Icon" class="user-icon" />
         <span class="user-name">{{ user.name }}</span>
         <span *ngIf="user.isHost" class="host-tag">Host</span> <!-- Display 'Host' if the user is the host -->
-
       </li>
     </ul>
   </div>
@@ -17,9 +16,9 @@
       <img src="assets/buzzer.png" alt="Buzzer" class="buzzer" (click)="pressBuzzer()" />
     </div>
 
-    <!-- <h3>Set Your Name</h3>
-    <input [(ngModel)]="userName" placeholder="Enter your name" />
-    <button (click)="setName()">Set Name</button> -->
+    <div>
+      <button (click)="leaveRoom()">Leave room</button>
+    </div>
   </div>
 
   <div class="sidebar right">

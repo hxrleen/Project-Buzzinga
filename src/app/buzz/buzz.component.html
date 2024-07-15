@@ -1,14 +1,13 @@
 <div class="container">
-  <div class="sidebar left">
+  <!-- <div class="sidebar left">
     <h3>Live Users</h3>
     <ul>
       <li *ngFor="let user of users">
         <img src="assets/listening_6683916.png" alt="User Icon" class="user-icon" />
         <span class="user-name">{{ user.name }}</span> 
-        <span *ngIf="user.isHost" class="host-tag">Host</span> <!-- Display 'Host' if the user is the host -->
       </li>
     </ul>
-  </div>
+  </div> -->
 
   <div class="main">
     <h2>Buzz Me</h2>
@@ -31,12 +30,12 @@
     </div>
   </div>
 
-  <div class="sidebar right">
+  <!-- <div class="sidebar right">
     <h3>Buzzer Events</h3>
     <ul>
       <li *ngFor="let event of buzzerEvents" class="buzzer-event">
         {{ event.name }}: {{ event.timestamp }}
       </li>
     </ul>
-  </div>
+  </div> -->
 </div>

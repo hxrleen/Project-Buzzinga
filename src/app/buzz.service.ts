@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { io } from 'socket.io-client';
 
 @Injectable({
@@ -25,7 +25,6 @@ export class BuzzService {
       this.messageSubject.next(message);
     });
 
-    // Expecting an array of user objects
     this.socket.on('users', (users: { id: string; name: string; isHost: boolean }[]) => {
       this.usersSubject.next(users);
     });
@@ -91,4 +90,20 @@ export class BuzzService {
   public getNotifications(): Observable<string> {
     return this.notification$;
   }
+
+  public isValidRoom(roomId: string): Observable<boolean> {
+    const isValid = !!roomId && roomId.length > 3; // Dummy aaheyyyyy
+    return of(isValid); 
+  }
+  public leaveRoom(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.socket.emit('leaveRoom', (response: string) => {        
+        if (response === 'success') {
+          resolve();
+        } else {
+          reject('Failed to leave room');
+        }
+      });
+    });
+  }  
 }

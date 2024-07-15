@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { FirstPageComponent } from './first-page/first-page.component';
 import { BuzzComponent } from './buzz/buzz.component';
 import { RoomComponent } from './room/room.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { RoomComponent } from './room/room.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent] 

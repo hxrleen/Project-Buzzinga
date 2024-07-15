@@ -1,4 +1,3 @@
-// room.component.ts
 import { Component, OnInit } from '@angular/core';
 import { BuzzService } from '../buzz.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -55,6 +54,19 @@ export class RoomComponent implements OnInit {
   setName() {
     if (this.userName.trim()) {
       this.buzzService.setName(this.userName);
+    }
+  }
+
+  leaveRoom() {
+    if (confirm("Do you really want to leave the room?")) {
+      this.router.navigate(['buzz']);
+      this.buzzService.leaveRoom().then(() => {
+        console.log("In then");
+                        
+        this.router.navigate(['buzz']);
+      }).catch(err => {        
+        console.error(err);
+      });
     }
   }
 }
