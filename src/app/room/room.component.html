@@ -1,4 +1,3 @@
-
 <div class="container">
   <div class="sidebar left">
     <h3>Live Users</h3>
@@ -6,7 +5,7 @@
       <li *ngFor="let user of users">
         <img src="assets/listening_6683916.png" alt="User Icon" class="user-icon" />
         <span class="user-name">{{ user.name }}</span>
-        <span *ngIf="user.isHost" class="host-tag">Host</span> <!-- Display 'Host' if the user is the host -->
+        <span *ngIf="user.isHost" class="host-tag">Host</span>
       </li>
     </ul>
   </div>

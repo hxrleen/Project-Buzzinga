@@ -13,6 +13,7 @@ export class RoomComponent implements OnInit {
   userName = '';
   roomId: string | null = null;
   notifications: string[] = [];
+  PressedBuzzer = false; // to check if the user has pressed the buzzer already
 
   constructor(
     private buzzService: BuzzService,
@@ -53,7 +54,12 @@ export class RoomComponent implements OnInit {
   }
 
   pressBuzzer() {
-    this.buzzService.pressBuzzer();
+    if (!this.PressedBuzzer) {
+      this.buzzService.pressBuzzer();
+      this.PressedBuzzer = true;
+    } else {
+      alert('You have already pressed the buzzer.');
+    }
   }
 
   setName() {
@@ -65,16 +71,14 @@ export class RoomComponent implements OnInit {
   leaveRoom() {
     if (confirm('Do you really want to leave the room?')) {
       this.router.navigate(['buzz']);
-      this.buzzService
-        .leaveRoom()
-        .then(() => {
-          console.log('In then');
-
-          this.router.navigate(['buzz']);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      // this.buzzService
+      //   .leaveRoom()
+      //   .then(() => {
+      //     this.router.navigate(['buzz']);
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //   });
     }
   }
 }
