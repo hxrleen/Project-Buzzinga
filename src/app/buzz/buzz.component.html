@@ -22,13 +22,15 @@
     <br>
     <h3>Room Management</h3>
     <div>
-      <button (click)="createRoom()">Create Room</button>
+      <button (click)="createRoom('single')">Create Room (Single Buzz)</button>
+      <br> <br>
+      <button (click)="createRoom('multiple')">Create Room (Multiple Buzzes)</button>
+      <br>
       <span *ngIf="roomId">Room ID: {{ roomId }}</span>
       <br>
-      <input [(ngModel)]="roomId" placeholder="Enter Room ID to Join" />
+      <input [(ngModel)]="joinRoomId" placeholder="Enter Room ID to Join" />
       <button (click)="joinRoom()">Join Room</button>
     </div>
-  </div>
 
   <!-- <div class="sidebar right">
     <h3>Buzzer Events</h3>

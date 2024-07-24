@@ -15,6 +15,7 @@ export class BuzzComponent implements OnInit, OnDestroy {
   buzzerEvents: any[] = [];
   userName = '';
   roomId = '';
+  joinRoomId = ''; // For joining a room
   notifications: string[] = [];
 
   private subscriptions: Subscription[] = [];
@@ -86,8 +87,10 @@ export class BuzzComponent implements OnInit, OnDestroy {
   }
 
   sendMessage() {
-    this.buzzService.sendMessage(this.newMessage);
-    this.newMessage = '';
+    if (this.newMessage.trim()) {
+      this.buzzService.sendMessage(this.newMessage);
+      this.newMessage = '';
+    }
   }
 
   pressBuzzer() {
@@ -100,20 +103,20 @@ export class BuzzComponent implements OnInit, OnDestroy {
     }
   }
 
-  createRoom() {
-    this.buzzService.createRoom();
+  createRoom(buzzMode: 'single' | 'multiple') {
+    this.buzzService.createRoom(buzzMode);
   }
 
   joinRoom() {
-    if (this.roomId.trim()) {
-      this.buzzService.joinRoom(this.roomId).then(success => {
+    if (this.joinRoomId.trim()) {
+      this.buzzService.joinRoom(this.joinRoomId).then(success => {
         if (success) {
-          this.router.navigate(['buzz', 'room', this.roomId]);
+          this.router.navigate(['buzz', 'room', this.joinRoomId]);
         } else {
-          console.log("Failed to join the room");
+          console.error("Failed to join the room");
         }
       }).catch(err => {
-        console.error(err);
+        console.error("Error joining room:", err);
       });
     }
   }

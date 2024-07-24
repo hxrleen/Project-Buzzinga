@@ -58,15 +58,22 @@ export class RoomComponent implements OnInit {
   }
 
   leaveRoom() {
-    if (confirm("Do you really want to leave the room?")) {
-      this.router.navigate(['buzz']);
-      this.buzzService.leaveRoom().then(() => {
-        console.log("In then");
-                        
+    const currentUser = this.users.find(user => user.id === this.buzzService.socket.id);
+
+    if (currentUser?.isHost) {
+      alert(`${currentUser.name}, you are the host. You cannot leave the room without closing it.`);
+      if (confirm("Do you want to close the room?")) {
+        this.buzzService.closeRoom();
         this.router.navigate(['buzz']);
-      }).catch(err => {        
-        console.error(err);
-      });
+      }
+    } else {
+      if (confirm("Do you really want to leave the room?")) {
+        this.router.navigate(['buzz']);
+
+        this.buzzService.leaveRoom().then(() => {
+          this.router.navigate(['buzz']);
+        })
+      }
     }
   }
 }
