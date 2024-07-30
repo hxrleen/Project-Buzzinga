@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BuzzService } from '../buzz.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-room',
@@ -13,12 +14,17 @@ export class RoomComponent implements OnInit {
   userName = '';
   roomId: string | null = null;
   notifications: string[] = [];
-  PressedBuzzer = false; // to check if the user has pressed the buzzer already
+  audioPath = 'assets/chintapak.mp3';
+  isCurrentUserHost = false;
+
+  timer: number = 30;
+  isTimerRunning: boolean = false;
 
   constructor(
     private buzzService: BuzzService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private clipboard: Clipboard
   ) {}
 
   ngOnInit() {
@@ -38,10 +44,19 @@ export class RoomComponent implements OnInit {
       }
     });
 
+    this.buzzService.getTimer().subscribe((time) => {
+      this.timer = time;
+      this.isTimerRunning = time > 0;
+    });
+
     this.buzzService
       .getUsers()
       .subscribe((users: { id: string; name: string; isHost: boolean }[]) => {
         this.users = users;
+        const currentUser = users.find(
+          (user) => user.id === this.buzzService.socket.id
+        );
+        this.isCurrentUserHost = currentUser ? currentUser.isHost : false;
       });
 
     this.buzzService.getBuzzerEvents().subscribe((events: any[]) => {
@@ -54,12 +69,14 @@ export class RoomComponent implements OnInit {
   }
 
   pressBuzzer() {
-    if (!this.PressedBuzzer) {
-      this.buzzService.pressBuzzer();
-      this.PressedBuzzer = true;
-    } else {
-      alert('You have already pressed the buzzer.');
-    }
+    this.buzzService.pressBuzzer();
+    const audio = new Audio(this.audioPath);
+    audio.play();
+    audio.loop = true;
+    setTimeout(() => {
+      audio.pause();
+      audio.currentTime = 0;
+    }, 3000);
   }
 
   setName() {
@@ -68,17 +85,42 @@ export class RoomComponent implements OnInit {
     }
   }
 
+  copyRoomId() {
+    if (this.roomId) {
+      this.clipboard.copy(this.roomId);
+      alert('Room ID copied to clipboard!');
+    } else {
+      alert('Room ID is not available.');
+    }
+  }
+
+  startTimer() {
+    if (this.roomId) {
+      this.buzzService.startTimer(this.roomId);
+    }
+  }
+
   leaveRoom() {
-    if (confirm('Do you really want to leave the room?')) {
-      this.router.navigate(['buzz']);
-      // this.buzzService
-      //   .leaveRoom()
-      //   .then(() => {
-      //     this.router.navigate(['buzz']);
-      //   })
-      //   .catch((err) => {
-      //     console.error(err);
-      //   });
+    const currentUser = this.users.find(
+      (user) => user.id === this.buzzService.socket.id
+    );
+
+    if (currentUser?.isHost) {
+      alert(
+        `${currentUser.name}, you are the host. You cannot leave the room without closing it.`
+      );
+      if (confirm('Do you want to close the room?')) {
+        this.buzzService.closeRoom();
+        this.router.navigate(['buzz']);
+      }
+    } else {
+      if (confirm('Do you really want to leave the room?')) {
+        this.router.navigate(['buzz']);
+
+        this.buzzService.leaveRoom().then(() => {
+          this.router.navigate(['buzz']);
+        });
+      }
     }
   }
 }

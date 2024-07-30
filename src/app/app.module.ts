@@ -7,19 +7,25 @@ import { AppComponent } from './app.component';
 import { FirstPageComponent } from './first-page/first-page.component';
 import { BuzzComponent } from './buzz/buzz.component';
 import { RoomComponent } from './room/room.component';
-import { NavComponent } from './nav/nav.component';
 import { HttpClientModule } from '@angular/common/http';
+import { WelcomeModalComponent } from './welcome-modal/welcome-modal.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FirstPageComponent,
-    BuzzComponent,
-    RoomComponent,
-    NavComponent,
+    AppComponent,         
+    FirstPageComponent, 
+    BuzzComponent, RoomComponent, WelcomeModalComponent        
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    ClipboardModule
+  ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent] 
 })
-export class AppModule {}
+export class AppModule { }

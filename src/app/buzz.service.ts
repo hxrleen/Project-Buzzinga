@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,8 @@ export class BuzzService {
     ''
   );
   private notificationSubject: Subject<string> = new Subject<string>();
+  private roomConfigSubject: BehaviorSubject<string> =
+    new BehaviorSubject<string>('');
 
   public message$: Observable<string> = this.messageSubject.asObservable();
   public users$: Observable<{ id: string; name: string; isHost: boolean }[]> =
@@ -28,15 +30,22 @@ export class BuzzService {
   public room$: Observable<string> = this.roomSubject.asObservable();
   public notification$: Observable<string> =
     this.notificationSubject.asObservable();
+  public roomConfig$: Observable<string> =
+    this.roomConfigSubject.asObservable();
 
-  socket = io('http://localhost:3000');
+  private timerSubject: BehaviorSubject<number> = new BehaviorSubject<number>(
+    0
+  );
+  public timer$: Observable<number> = this.timerSubject.asObservable();
+  private currentRoomId: string | null = null; // Store the current room ID
+
+  public socket: Socket = io('http://localhost:3000');
 
   constructor() {
     this.socket.on('message', (message: string) => {
       this.messageSubject.next(message);
     });
 
-    // Expecting an array of user objects
     this.socket.on(
       'users',
       (users: { id: string; name: string; isHost: boolean }[]) => {
@@ -49,41 +58,65 @@ export class BuzzService {
       this.buzzerEventsSubject.next([...events, event]);
     });
 
-    this.socket.on('roomCreated', (roomId: string) => {
+    this.socket.on('roomCreated', (roomId: string, config: string) => {
       this.roomSubject.next(roomId);
+      this.roomConfigSubject.next(config);
     });
 
     this.socket.on('notification', (notification: string) => {
       this.notificationSubject.next(notification);
     });
-  }
 
-  public sendMessage(message: any) {
-    this.socket.emit('message', message);
-  }
+    this.socket.on('hostLeaveRoomAttempt', (message: string) => {
+      alert(message);
+    });
 
-  public createRoom() {
-    this.socket.emit('createRoom');
-  }
+    this.socket.on('roomClosed', (message: string) => {
+      alert(message);
+      window.location.href = '/buzz';
+    });
 
-  public joinRoom(roomId: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.socket.emit('joinRoom', roomId, (success: boolean) => {
-        if (success) {
-          resolve(success);
-        } else {
-          reject('Failed to join room');
-        }
-      });
+    this.socket.on(
+      'currentState',
+      (state: {
+        users: { id: string; name: string; isHost: boolean }[];
+        buzzerEvents: any[];
+      }) => {
+        this.usersSubject.next(state.users);
+        this.buzzerEventsSubject.next(state.buzzerEvents);
+      }
+    );
+
+    this.socket.on('startTimer', (duration: number, roomId: string) => {
+      this.startClientTimer(duration, roomId);
+    });
+
+    this.socket.on('timerEnded', () => {
+      this.timerSubject.next(0); // Reset the timer
     });
   }
 
-  public pressBuzzer() {
+  public sendMessage(message: string): void {
+    this.socket.emit('message', message);
+  }
+
+  public createRoom(buzzMode: 'single' | 'multiple'): void {
+    this.socket.emit('createRoom', buzzMode);
+  }
+
+  public pressBuzzer(): void {
     this.socket.emit('buzzer');
   }
 
-  public setName(name: string) {
+  public setName(name: string): void {
     this.socket.emit('setName', name);
+  }
+
+  public endEvent(): Promise<void> {
+    return new Promise((resolve) => {
+      this.socket.emit('endEvent');
+      resolve();
+    });
   }
 
   public getNewMessage(): Observable<string> {
@@ -108,10 +141,15 @@ export class BuzzService {
     return this.notification$;
   }
 
+  public getRoomConfig(): Observable<string> {
+    return this.roomConfig$;
+  }
+
   public isValidRoom(roomId: string): Observable<boolean> {
-    const isValid = !!roomId && roomId.length > 3; // Dummy aaheyyyyy
+    const isValid = !!roomId && roomId.length > 3;
     return of(isValid);
   }
+
   public leaveRoom(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.socket.emit('leaveRoom', (response: string) => {
@@ -122,5 +160,43 @@ export class BuzzService {
         }
       });
     });
+  }
+
+  public closeRoom(): void {
+    this.socket.emit('closeRoom');
+  }
+
+  public startTimer(roomId: string): void {
+    this.socket.emit('startTimer', roomId);
+  }
+
+  private startClientTimer(duration: number, roomId: string): void {
+    let remainingTime = duration;
+    this.timerSubject.next(remainingTime);
+    const interval = setInterval(() => {
+      remainingTime -= 1;
+      this.timerSubject.next(remainingTime);
+      if (remainingTime <= 0) {
+        clearInterval(interval);
+        this.socket.emit('timerEnded', roomId);
+      }
+    }, 1000);
+  }
+
+  public joinRoom(roomId: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.socket.emit('joinRoom', roomId, (success: boolean) => {
+        if (success) {
+          this.currentRoomId = roomId; // Store the room ID
+          resolve(success);
+        } else {
+          reject('Failed to join room');
+        }
+      });
+    });
+  }
+
+  public getTimer(): Observable<number> {
+    return this.timer$;
   }
 }

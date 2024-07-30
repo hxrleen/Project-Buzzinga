@@ -83,20 +83,87 @@ input {
   background-color: #444;
   color: #fff;
 }
-
+/* 
 button {
   background-color: #6a0dad;
   color: #fff;
   cursor:grab;
-}
+} */
 
 
 .buzzer-event {
   margin-bottom: 10px;
   font-style: italic;
-  color: #d43886; 
+  color: #67c435; 
+  font-size: 30px;
 }
 
 button:hover, .buzzer:hover {
   opacity: 0.8;
+}
+
+/* .invite{
+  color:black;
+ 
+ 
+  font-size: 40px;
+}
+
+.invite ul{
+  list-style: none;
+  background-color:#c5c5ff;
+}
+
+.invite span{
+  font-size: 20px;
+  margin: 20%;
+  background-color:#c5c5ff;
+} */
+
+.invite{
+  height: 200px;
+  width: 500px;
+  margin:auto;
+  margin-top: 10%;
+  border-radius: 5px;  
+  span{
+    font-family:Arial, Helvetica, sans-serif;
+    padding: 12%;
+    font-size: 20px;
+  }
+
+  i{
+    font-size: 40px;
+  }
+}
+
+
+.invite h2{
+  color: #464676;
+}
+
+.invite ul{
+  list-style: none;
+}
+
+.invite li{
+  padding: 2%;
+}
+
+.invite-list{
+  background-color: #c5c5ff;
+}
+
+.fa-solid .fa-copy .copy-icon{
+  margin: 2px;
+  padding: 2px
+}
+button {
+  padding: 2%;
+  font-size: large;
+  background-color: rgb(64, 0, 123);
+  cursor:pointer;
+  color:white;
+  border: none;
+  border-radius: 5%;
 }

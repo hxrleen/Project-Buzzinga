@@ -6,8 +6,9 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-buzz',
   templateUrl: './buzz.component.html',
-  styleUrls: ['./buzz.component.css'],
+  styleUrls: ['./buzz.component.css']
 })
+
 export class BuzzComponent implements OnInit, OnDestroy {
   newMessage = '';
   messageList: string[] = [];
@@ -15,12 +16,15 @@ export class BuzzComponent implements OnInit, OnDestroy {
   buzzerEvents: any[] = [];
   userName = '';
   roomId = '';
+  joinRoomId = ''; // For joining a room
   notifications: string[] = [];
+  showWelcomeModal: boolean = false;
+
 
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private buzzService: BuzzService,
+    private buzzService: BuzzService, 
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -28,7 +32,7 @@ export class BuzzComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Room ID from URL
     this.subscriptions.push(
-      this.route.paramMap.subscribe((params) => {
+      this.route.paramMap.subscribe(params => {
         const roomIdFromRoute = params.get('roomId');
         if (roomIdFromRoute) {
           this.roomId = roomIdFromRoute;
@@ -39,28 +43,28 @@ export class BuzzComponent implements OnInit, OnDestroy {
 
     // Subscribe to message stream
     this.subscriptions.push(
-      this.buzzService.getNewMessage().subscribe((message) => {
+      this.buzzService.getNewMessage().subscribe(message => {
         this.messageList.push(message);
       })
     );
 
     // Subscribe to users stream
     this.subscriptions.push(
-      this.buzzService.getUsers().subscribe((users) => {
+      this.buzzService.getUsers().subscribe(users => {
         this.users = users;
       })
     );
 
     // Subscribe to buzzer events stream
     this.subscriptions.push(
-      this.buzzService.getBuzzerEvents().subscribe((events) => {
+      this.buzzService.getBuzzerEvents().subscribe(events => {
         this.buzzerEvents = events;
       })
     );
 
     // Subscribe to room changes
     this.subscriptions.push(
-      this.buzzService.getRoom().subscribe((roomId) => {
+      this.buzzService.getRoom().subscribe(roomId => {
         if (roomId) {
           this.roomId = roomId;
           if (this.route.snapshot.paramMap.get('roomId') !== roomId) {
@@ -72,7 +76,7 @@ export class BuzzComponent implements OnInit, OnDestroy {
 
     // Subscribe to notifications
     this.subscriptions.push(
-      this.buzzService.getNotifications().subscribe((notification) => {
+      this.buzzService.getNotifications().subscribe(notification => {
         if (!this.notifications.includes(notification)) {
           alert(notification);
         }
@@ -82,12 +86,14 @@ export class BuzzComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // Clean up subscriptions
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   sendMessage() {
-    this.buzzService.sendMessage(this.newMessage);
-    this.newMessage = '';
+    if (this.newMessage.trim()) {
+      this.buzzService.sendMessage(this.newMessage);
+      this.newMessage = '';
+    }
   }
 
   pressBuzzer() {
@@ -97,27 +103,30 @@ export class BuzzComponent implements OnInit, OnDestroy {
   setName() {
     if (this.userName.trim()) {
       this.buzzService.setName(this.userName);
+      this.showWelcomeModal = true;
+      setTimeout(() => {
+        this.showWelcomeModal = false;
+      }, 1000);
+    }else if(this.newMessage.trim()==''){
+      alert('Username cannot be set to empty!');
     }
   }
 
-  createRoom() {
-    this.buzzService.createRoom();
+  createRoom(buzzMode: 'single' | 'multiple') {
+    this.buzzService.createRoom(buzzMode);
   }
 
   joinRoom() {
-    if (this.roomId.trim()) {
-      this.buzzService
-        .joinRoom(this.roomId)
-        .then((success) => {
-          if (success) {
-            this.router.navigate(['buzz', 'room', this.roomId]);
-          } else {
-            console.log('Failed to join the room');
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+    if (this.joinRoomId.trim()) {
+      this.buzzService.joinRoom(this.joinRoomId).then(success => {
+        if (success) {
+          this.router.navigate(['buzz', 'room', this.joinRoomId]);
+        } else {
+          console.error("Failed to join the room");
+        }
+      }).catch(err => {
+        console.error("Error joining room:", err);
+      });
     }
   }
 }

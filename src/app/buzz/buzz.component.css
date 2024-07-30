@@ -1,86 +1,73 @@
-body {
-    background-color: #2e2e2e;
-}
-
-.container {
+.container{
+    border: 0.1rem solid black;
     display: flex;
-    height: 100vh;
-    text-align: center;
-    animation: fadeIn 2s;
-    background-color: #230538; /* Dark purple background for the entire page */
-    color: white; /* Ensure text color contrasts well with the dark background */
-    display: flex;
-    margin:0px;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-}
-
-
-/* Main Area Styles */
-.main {
-    flex: 0;
-    padding: 20px;
-    text-align: center;
     justify-content: center;
-    align-items: center;
-    margin:auto;
-    width: 75%;
-    padding: 2px;
+    text-align: center;
+    margin: auto;
+    margin-top: 2%;
+    width: 40%;
+    padding: 2%  0%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.main h2 {
-    color: #fff;
-    margin-bottom: 20px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 48px;
+ 
+.header{
+    padding: 1% 1%;
 }
 
-.buzzer-container {
-    position: relative;
-    display: inline-block;
+.header img{
+     width: 50%;
+     height: auto;
 }
 
-.buzzer {
-    width: 400px; 
-    cursor: grab;
-    transition: transform 0.5s;
+.name-cont{
+    padding:3% 1%;
 }
 
-.buzzer:active {
-    transform: scale(0.9); 
-}
-
-
-input, button {
-    margin: 10px 10px;
-    padding: 10px;
+.name-cont input{
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 2%;
+    margin: 2% 5%;
+    font-size: large;
     border: none;
-    height: 30px;
-    border-radius: 5px;
-    width: 200px;
 }
 
-input {
-    width: 80%;
-    background-color: #444;
-    color: #fff;
+.name-cont button{
+    padding: 2%;
+    font-size: large;
+    background-color: rgb(64, 0, 123);
+    cursor:pointer;
+    color:white;
+    border: none;
+    border-radius: 5%;
 }
 
-button {
-    background-color: #6a0dad;
-    color: #fff;
-    cursor:grab;
-    height: 50px;
+button:hover{
+    background-color: rgb(83, 12, 150);
+    transform: scale(1.09);
 }
 
-
-.buzzer-event {
-    margin-bottom: 10px;
-    font-style: italic;
-    color: #d43886; 
+.room-cont input{
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 2%;
+    margin: 2% 5%;
+    font-size: large;
 }
 
-button:hover, .buzzer:hover {
-    opacity: 0.8;
+.room-cont button{
+    padding: 2%;
+    font-size: large;
+    background-color: rgb(64, 0, 123);
+    cursor:pointer;
+    color:white;
+    border: none;
+    border-radius: 5%;
 }
+
+.divider {
+    border: 0;
+    height: 3px;
+    background: #e39292;
+  }

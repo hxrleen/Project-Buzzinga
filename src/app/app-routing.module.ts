@@ -9,15 +9,11 @@ const routes: Routes = [
   { path: '', component: FirstPageComponent },
   { path: 'buzz', component: BuzzComponent },
   // { path: 'buzz/room', component: BuzzComponent },
-  {
-    path: 'buzz/room/:roomId',
-    component: RoomComponent,
-    canActivate: [AuthGuard],
-  },
+  { path: 'buzz/room/:roomId', component: RoomComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
