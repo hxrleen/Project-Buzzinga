@@ -16,9 +16,11 @@ export class RoomComponent implements OnInit {
   notifications: string[] = [];
   audioPath = 'assets/chintapak.mp3';
   isCurrentUserHost = false;
+  gameRounds: number | null = null;
 
   timer: number = 30;
   isTimerRunning: boolean = false;
+  hasPressedBuzzer: boolean = false;
 
   constructor(
     private buzzService: BuzzService,
@@ -47,6 +49,9 @@ export class RoomComponent implements OnInit {
     this.buzzService.getTimer().subscribe((time) => {
       this.timer = time;
       this.isTimerRunning = time > 0;
+      if (!this.isTimerRunning) {
+        this.hasPressedBuzzer = false; // Reset buzzer press state when timer stops
+      }
     });
 
     this.buzzService
@@ -66,17 +71,35 @@ export class RoomComponent implements OnInit {
     this.buzzService.getNotifications().subscribe((notification: string) => {
       this.notifications.push(notification);
     });
+
+    this.buzzService.getTimerEnd().subscribe(() => {
+      this.isTimerRunning = false;
+    });
   }
 
+  // pressBuzzer() {
+  //   this.buzzService.pressBuzzer();
+  //   const audio = new Audio(this.audioPath);
+  //   audio.play();
+  //   audio.loop = true;
+  //   setTimeout(() => {
+  //     audio.pause();
+  //     audio.currentTime = 0;
+  //   }, 3000);
+  // }
+
   pressBuzzer() {
-    this.buzzService.pressBuzzer();
-    const audio = new Audio(this.audioPath);
-    audio.play();
-    audio.loop = true;
-    setTimeout(() => {
-      audio.pause();
-      audio.currentTime = 0;
-    }, 3000);
+    if (this.isTimerRunning && !this.hasPressedBuzzer) {
+      this.buzzService.pressBuzzer();
+      this.hasPressedBuzzer = true; // Mark buzzer as pressed
+      const audio = new Audio(this.audioPath);
+      audio.play();
+      audio.loop = true;
+      setTimeout(() => {
+        audio.pause();
+        audio.currentTime = 0;
+      }, 3000);
+    }
   }
 
   setName() {
@@ -96,6 +119,7 @@ export class RoomComponent implements OnInit {
 
   startTimer() {
     if (this.roomId) {
+      this.isTimerRunning = true;
       this.buzzService.startTimer(this.roomId);
     }
   }
@@ -122,5 +146,10 @@ export class RoomComponent implements OnInit {
         });
       }
     }
+  }
+
+  setGameRounds(rounds: number) {
+    this.gameRounds = rounds;
+    console.log(`Game rounds set to: ${this.gameRounds}`);
   }
 }

@@ -10,13 +10,14 @@ import { RoomComponent } from './room/room.component';
 import { HttpClientModule } from '@angular/common/http';
 import { WelcomeModalComponent } from './welcome-modal/welcome-modal.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { RoundsModalComponent } from './rounds-modal/rounds-modal.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,         
     FirstPageComponent, 
-    BuzzComponent, RoomComponent, WelcomeModalComponent        
+    BuzzComponent, RoomComponent, WelcomeModalComponent, RoundsModalComponent        
   ],
   imports: [
     BrowserModule,
