@@ -21,12 +21,16 @@ export class RoomComponent implements OnInit {
   timer: number = 30;
   isTimerRunning: boolean = false;
   hasPressedBuzzer: boolean = false;
+  currentRound: number = 1;
 
+
+  
   constructor(
     private buzzService: BuzzService,
     private route: ActivatedRoute,
     private router: Router,
     private clipboard: Clipboard
+    
   ) {}
 
   ngOnInit() {
@@ -53,6 +57,7 @@ export class RoomComponent implements OnInit {
         this.hasPressedBuzzer = false; // Reset buzzer press state when timer stops
       }
     });
+    
 
     this.buzzService
       .getUsers()
@@ -75,6 +80,13 @@ export class RoomComponent implements OnInit {
     this.buzzService.getTimerEnd().subscribe(() => {
       this.isTimerRunning = false;
     });
+
+
+    this.buzzService.getRound().subscribe((round: number) => {
+      this.currentRound = round;
+    });
+
+
   }
 
   // pressBuzzer() {

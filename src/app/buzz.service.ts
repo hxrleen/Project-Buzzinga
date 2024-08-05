@@ -42,6 +42,11 @@ export class BuzzService {
   public timerEnd$: Observable<void> = this.timerEndSubject.asObservable();
   private currentRoomId: string | null = null; // Store the current room ID
 
+  private roundSubject: BehaviorSubject<number> = new BehaviorSubject<number>(
+    1
+  );
+  public round$: Observable<number> = this.roundSubject.asObservable();
+
   public socket: Socket = io('http://localhost:3000');
 
   constructor() {
@@ -77,6 +82,10 @@ export class BuzzService {
     this.socket.on('roomClosed', (message: string) => {
       alert(message);
       window.location.href = '/buzz';
+    });
+
+    this.socket.on('updateRound', (round: number) => {
+      this.roundSubject.next(round);
     });
 
     this.socket.on(
@@ -190,18 +199,7 @@ export class BuzzService {
     return of(isValid);
   }
 
-  // private startClientTimer(duration: number, roomId: string): void {
-  //   let remainingTime = duration;
-  //   this.timerSubject.next(remainingTime);
-  //   const interval = setInterval(() => {
-  //     remainingTime -= 1;
-  //     this.timerSubject.next(remainingTime);
-  //     if (remainingTime <= 0) {
-  //       clearInterval(interval);
-  //       this.socket.emit('timerEnded', roomId);
-  //     }
-  //   }, 1000);
-  // }
+
 
   public joinRoom(roomId: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
@@ -216,17 +214,7 @@ export class BuzzService {
     });
   }
 
-  // public joinRoom(roomId: string): Promise<boolean> {
-  //   return new Promise((resolve, reject) => {
-  //     this.socket.emit('joinRoom', roomId, (response: { success: boolean }) => {
-  //       if (response.success) {
-  //         resolve(true);
-  //       } else {
-  //         resolve(false);
-  //       }
-  //     });
-  //   });
-  // }
+
 
   public getTimer(): Observable<number> {
     return this.timer$;
@@ -238,5 +226,9 @@ export class BuzzService {
 
   public setGameRounds(rounds: number): void {
     this.socket.emit('setGameRounds', rounds);
+  }
+
+  public getRound(): Observable<number> {
+    return this.round$;
   }
 }

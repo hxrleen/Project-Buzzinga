@@ -48,12 +48,15 @@
 
   <div class="sidebar right">
     <h3>BUZZER  EVENTS</h3>
+    <p>Current Round: {{ currentRound }}</p> 
     <ul>
       <li *ngFor="let event of buzzerEvents" class="buzzer-event">
         {{ event.name }}: {{ event.timestamp }}
       </li>
     </ul>
   </div>
+
+
   <app-rounds-modal *ngIf="isCurrentUserHost && !gameRounds" (roundsEntered)="setGameRounds($event)"></app-rounds-modal>
 
 
