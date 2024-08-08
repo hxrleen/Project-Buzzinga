@@ -165,6 +165,7 @@ export class RoomComponent implements OnInit {
         this.buzzService.leaveRoom().then(() => {
           this.router.navigate(['buzz']);
         });
+
       }
     }
   }
