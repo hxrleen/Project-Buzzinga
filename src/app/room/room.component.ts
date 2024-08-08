@@ -10,6 +10,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 })
 export class RoomComponent implements OnInit {
   users: { id: string; name: string; isHost: boolean }[] = [];
+  rounds: any = [];
   buzzerEvents: any[] = [];
   userName = '';
   roomId: string | null = null;
@@ -23,14 +24,11 @@ export class RoomComponent implements OnInit {
   hasPressedBuzzer: boolean = false;
   currentRound: number = 1;
 
-
-  
   constructor(
     private buzzService: BuzzService,
     private route: ActivatedRoute,
     private router: Router,
     private clipboard: Clipboard
-    
   ) {}
 
   ngOnInit() {
@@ -57,7 +55,6 @@ export class RoomComponent implements OnInit {
         this.hasPressedBuzzer = false; // Reset buzzer press state when timer stops
       }
     });
-    
 
     this.buzzService
       .getUsers()
@@ -70,7 +67,22 @@ export class RoomComponent implements OnInit {
       });
 
     this.buzzService.getBuzzerEvents().subscribe((events: any[]) => {
-      this.buzzerEvents = events;
+      this.rounds = [];
+      if (events.length) {
+        for (let i = 0; i < events.length; i++) {
+          if (this.rounds[events[i]['round'] - 1]) {
+            this.rounds[events[i]['round'] - 1].push(events[i]);
+          } else {
+            this.rounds[events[i]['round'] - 1] = [];
+            this.rounds[events[i]['round'] - 1].push(events[i]);
+          }
+        }
+      }
+      console.log(this.rounds);
+      // this.rounds[this.currentRound - 1] = events;
+      // console.log(events);
+
+      // this.buzzerEvents = events;
     });
 
     this.buzzService.getNotifications().subscribe((notification: string) => {
@@ -81,12 +93,9 @@ export class RoomComponent implements OnInit {
       this.isTimerRunning = false;
     });
 
-
     this.buzzService.getRound().subscribe((round: number) => {
       this.currentRound = round;
     });
-
-
   }
 
   // pressBuzzer() {
@@ -162,6 +171,7 @@ export class RoomComponent implements OnInit {
 
   setGameRounds(rounds: number) {
     this.gameRounds = rounds;
+
     console.log(`Game rounds set to: ${this.gameRounds}`);
   }
 }
