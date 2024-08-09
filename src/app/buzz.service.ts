@@ -6,18 +6,27 @@ import { io, Socket } from 'socket.io-client';
   providedIn: 'root',
 })
 export class BuzzService {
-  private messageSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  private usersSubject: BehaviorSubject<{ id: string; name: string; isHost: boolean }[]> = new BehaviorSubject<{ id: string; name: string; isHost: boolean }[]>([]);
-  private buzzerEventsSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  private roomSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  private messageSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
+    ''
+  );
+  private usersSubject: BehaviorSubject<
+    { id: string; name: string; isHost: boolean }[]
+  > = new BehaviorSubject<{ id: string; name: string; isHost: boolean }[]>([]);
+  private buzzerEventsSubject: BehaviorSubject<any[]> = new BehaviorSubject<
+    any[]
+  >([]);
+  private roomSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
+    ''
+  );
   private notificationSubject: Subject<string> = new Subject<string>();
   private roomConfigSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>('');
-  private roomConfigSubject: BehaviorSubject<string> = new BehaviorSubject<string>(''); // New subject for room config
 
   public message$: Observable<string> = this.messageSubject.asObservable();
-  public users$: Observable<{ id: string; name: string; isHost: boolean }[]> = this.usersSubject.asObservable();
-  public buzzerEvents$: Observable<any[]> = this.buzzerEventsSubject.asObservable();
+  public users$: Observable<{ id: string; name: string; isHost: boolean }[]> =
+    this.usersSubject.asObservable();
+  public buzzerEvents$: Observable<any[]> =
+    this.buzzerEventsSubject.asObservable();
   public room$: Observable<string> = this.roomSubject.asObservable();
   public notification$: Observable<string> =
     this.notificationSubject.asObservable();
@@ -60,8 +69,7 @@ export class BuzzService {
     this.socket.on('roomCreated', (roomId: string, config: string) => {
       this.roomSubject.next(roomId);
       this.roomConfigSubject.next(config);
-
-    
+    });
 
     this.socket.on('notification', (notification: string) => {
       this.notificationSubject.next(notification);
@@ -104,24 +112,8 @@ export class BuzzService {
     });
   }
 
- 
-
-    this.socket.on('hostLeaveRoomAttempt', (message: string) => {
-      alert(message);
-    });
-
-    this.socket.on('roomClosed', (message: string) => {
-      alert(message);
-      window.location.href = '/buzz';
-    });
-  }
-
   public sendMessage(message: string): void {
     this.socket.emit('message', message);
-  }
-
-  public createRoom(buzzMode: 'single' | 'multiple'): void {
-    this.socket.emit('createRoom', buzzMode);
   }
 
   public createRoom(buzzMode: 'single' | 'multiple'): void {
@@ -139,17 +131,6 @@ export class BuzzService {
   public getUsers(): Observable<
     { id: string; name: string; isHost: boolean }[]
   > {
-  public endEvent(): Promise<void> {
-    return new Promise((resolve) => {
-      this.socket.emit('endEvent');
-      resolve();
-    });
-  }
-
-  public getNewMessage(): Observable<string> {
-    return this.message$;
-  }
-
     return this.users$;
   }
 
@@ -167,11 +148,6 @@ export class BuzzService {
 
   public getRoomConfig(): Observable<string> {
     return this.roomConfig$;
-  }
-
-  public isValidRoom(roomId: string): Observable<boolean> {
-    const isValid = !!roomId && roomId.length > 3;
-    return of(isValid);
   }
 
   public leaveRoom(): Promise<void> {

@@ -36,31 +36,7 @@
     </ul>
   </div> -->
 
-
     <!-- <div class="sidebar right">
-  <div class="main">
-    <h2>Buzz Me</h2>
-    <div class="buzzer-container">
-      <img src="assets/buzzer.png" alt="Buzzer" class="buzzer" (click)="pressBuzzer()" />
-    </div>
-
-    <h3>Set Your Name</h3>
-    <input [(ngModel)]="userName" placeholder="Enter your name" />
-    <button (click)="setName()">Set Name</button>
-
-    <br>
-    <h3>Room Management</h3>
-    <div>
-      <button (click)="createRoom('single')">Create Room (Single Buzz)</button>
-      <br> <br>
-      <button (click)="createRoom('multiple')">Create Room (Multiple Buzzes)</button>
-      <br>
-      <span *ngIf="roomId">Room ID: {{ roomId }}</span>
-      <br>
-      <input [(ngModel)]="joinRoomId" placeholder="Enter Room ID to Join" />
-      <button (click)="joinRoom()">Join Room</button>
-    </div>
-
     <h3>Buzzer Events</h3>
     <ul>
       <li *ngFor="let event of buzzerEvents" class="buzzer-event">
