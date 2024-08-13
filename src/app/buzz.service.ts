@@ -166,8 +166,8 @@ export class BuzzService {
     this.socket.emit('closeRoom');
   }
 
-  public startTimer(roomId: string): void {
-    this.socket.emit('startTimer', roomId);
+  public startTimer(roomId: string, gameRounds: number): void {
+    this.socket.emit('startTimer', roomId, gameRounds); 
   }
 
   private startClientTimer(duration: number): void {
@@ -199,8 +199,6 @@ export class BuzzService {
     return of(isValid);
   }
 
-
-
   public joinRoom(roomId: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.socket.emit('joinRoom', roomId, (success: boolean) => {
@@ -213,8 +211,6 @@ export class BuzzService {
       });
     });
   }
-
-
 
   public getTimer(): Observable<number> {
     return this.timer$;

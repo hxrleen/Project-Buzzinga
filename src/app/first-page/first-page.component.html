@@ -1,6 +1,20 @@
-<div class="welcome-page">
+<!-- <div class="welcome-page">
     <img src="assets/AppName.png" alt="App Name" class="app-name-image" />
     <img src="https://media.istockphoto.com/id/1282459998/vector/quiz-show-trivia-game-show-man-and-tv-gaming-participant-flat-competition-program-winner.jpg?s=2048x2048&w=is&k=20&c=BDmFANMm0pzbO31MOrTTNQfsUUu87LP4vUvOz59oyPw=" alt="App intro " class="app-image" />
     <button (click)="navigateToApp()" class="redirect-button">Go to App</button>
   </div>
+   -->
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<audio #audioPlayer src="assets/Addict.mp3"></audio>
+
+<div class="welcome-page">
+  <br> <br> <br> <br><br><br>  <br> <br> <br> <br><br><br> <br> <br> <br> <br><br><br>
+  <button (click)="navigateToApp()" class="game-button">Let's Go!</button>
+  <br> <br> <br>
+  <button (click)="playAudio()" id="audio-btn">
+    <i class="fas fa-volume-up"></i>
+  </button>
   
+</div>

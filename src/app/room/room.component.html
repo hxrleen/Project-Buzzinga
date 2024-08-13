@@ -2,10 +2,10 @@
   <div class="sidebar left">
     <h3>CURRENT USERS</h3>
     <ul>
-      <li *ngFor="let user of users">
+      <li class="text" *ngFor="let user of users">
         <img src="assets/listening_6683916.png" alt="User Icon" class="user-icon" />
         <span class="user-name">{{ user.name }}</span>
-        <span *ngIf="user.isHost" class="host-tag">Host</span> <!-- Display 'Host' if the user is the host -->
+        <span *ngIf="user.isHost" class="host-tag">  Host</span> <!-- Display 'Host' if the user is the host -->
       </li>
     </ul>
   </div>
@@ -21,13 +21,13 @@
     </div>
 
     <div *ngIf="isCurrentUserHost">
-      <button (click)="startTimer()" [disabled]="isTimerRunning">Start Timer</button>
+      <button class="name-cont" (click)="startTimer()" [disabled]="isTimerRunning">Start Timer</button>
     </div>
 
     
 
-    <div>
-      <h3>Time Remaining: {{ timer }} seconds</h3>
+    <div class="timerem">
+      <h3 class="timer-text">Time Remaining: {{ timer }} seconds</h3>
     </div>
 
     <div class="invite">
@@ -35,23 +35,23 @@
       <ul class="invite-list">
         <li *ngIf="isCurrentUserHost">
           <h2>Invite Your Friends!!</h2>
-          <span >Room ID: {{ roomId }}</span>
+          <span class="in">Room ID: {{ roomId }}</span>
           <i class="fa-solid fa-copy copy-icon" (click)="copyRoomId()"></i>
         </li>
       </ul>
     </div>
 
     <div>
-      <button (click)="leaveRoom()">LEAVE ROOM</button>
+      <button class="name-cont" (click)="leaveRoom()">LEAVE ROOM</button>
     </div>
   </div>
 
   <div class="sidebar right">
     <h3>BUZZER  EVENTS</h3>
     <div *ngFor="let round of rounds; let i = index; let l = last">
-      <p>Current Round: {{ i+1 }}</p> 
+      <p class="text">Current Round: {{ i+1 }}</p> 
       <ul >
-        <li *ngFor="let event of round" class="buzzer-event">
+        <li *ngFor="let event of round" class="buzzer-event text">
           {{ event.name }}: {{ event.timestamp }}
         </li>
       </ul>

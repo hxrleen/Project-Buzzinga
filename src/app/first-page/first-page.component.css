@@ -1,72 +1,112 @@
 /* .welcome-page styles */
 .welcome-page {
-    text-align: center;
-    padding: 50px;
-    animation: fadeIn 2s;
-    background-color: #230538; /* Dark purple background for the entire page */
-    color: white; /* Ensure text color contrasts well with the dark background */
-    min-height: 100vh; /* Full viewport height */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-  }
-  
-  /* App name image styles */
-  .app-name-image {
-    width: 60vw; /* 60% of viewport width */
-    height: auto; /* Maintain aspect ratio */
-    max-height: 30vh; /* Limit height to avoid overflow */
-    margin-bottom: 30px;
-    animation: appNameAnimation 2s infinite; /* Apply animation */
-  }
-  
-  /* App image styles */
-  .app-image {
-    width: 70vw; /* 70% of viewport width */
-    height: 60vh; /* Increased height for a larger image */
-    object-fit: cover; /* Ensure the image covers the area without distortion */
-    margin-bottom: 30px;
-    border-radius: 10px; /* Optional: add rounded corners */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Optional: add shadow for better visual depth */
-  }
-  
-  /* Redirect button styles */
-  .redirect-button {
-    display: inline-block; /* Ensure button is treated as a block for centering */
-    padding: 15px 30px; /* Increased padding for a wider button */
-    font-size: 20px; /* Larger font size */
-    background-color: #ed1111; /* Red background */
-    color: white;
-    border: none;
-    border-radius: 8px; /* Slightly larger rounded corners */
-    cursor: pointer;
-    animation: buttonAnimation 1s infinite;
-    margin-top: 20px; /* Space above the button */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Shadow effect for the button */
-  }
-  
-  .redirect-button:hover {
-    background-color: #CC0000; /* Slightly darker red on hover */
-  }
-  
-  /* Fade in animation for the welcome page */
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  /* Animation for the button */
-  @keyframes buttonAnimation {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-  }
-  
-  /* Animation for the app name image */
-  @keyframes appNameAnimation {
-    0% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.05); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.8; }
-  }
-  
+  text-align: center;
+  padding: 50px;
+  animation: fadeIn 2s;
+  background-image: url('/assets/buzzinga-home.jpg'); /* Set background image */
+  background-size: cover; /* Ensure the image covers the entire page */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Prevent repeating of the image */
+  color: white; /* Ensure text color contrasts well with the dark background */
+  min-height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+}
+
+/* Redirect button styles */
+.redirect-button {
+  display: inline-block; /* Ensure button is treated as a block for centering */
+  padding: 15px 30px; /* Increased padding for a wider button */
+  font-size: 20px; /* Larger font size */
+  background-color: #ed1111; /* Red background */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Slightly larger rounded corners */
+  cursor: pointer;
+  animation: buttonAnimation 1s infinite;
+  margin-top: 20px; /* Space above the button */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Shadow effect for the button */
+  z-index: 1; /* Ensure button is above the background image */
+}
+
+.redirect-button:hover {
+  background-color: #CC0000; /* Slightly darker red on hover */
+}
+
+/* Fade in animation for the welcome page */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Animation for the button */
+@keyframes buttonAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@import url('https://fonts.googleapis.com/css?family=Carter+One');
+body {background-color: #111; text-align: center; padding: 30px;background-image: url(data:image/png;base64,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);} /*NOIZE for background*/
+.game-button {
+  position: relative;
+  top: 0;
+  cursor: pointer;
+  text-decoration: none !important;
+  outline: none !important;
+  font-family: 'Carter One', sans-serif;
+  font-size: 26px; /* Increased font size */
+  line-height: 1.5em;
+  letter-spacing: .1em;
+  color: #ffff91; /* Brighter yellow text color */
+  border: none;
+  border-radius: 8px; /* Slightly larger rounded corners */
+  padding: 10px 15px; /* Increased padding for a wider button */
+  background: repeating-linear-gradient(45deg, #7339C1, #7339C1 5px, #6633A7 5px, #6633A7 10px); /* Shades of purple */
+  animation: buttonAnimation 1s infinite;
+  margin-top: 50px; /* Increased space above the button to move it down */
+  box-shadow: 
+    0 0 10px #ffff9b, /* Brighter yellow glow */
+    0 0 12px #7339C1, /* Purple glow */
+    0 8px 1px 1px rgba(0, 0, 0, 0.3), 
+    0 10px 0 5px #452272, 
+    0 12px 0 5px #5A3BA1, 
+    0 15px 0 5px #361959, 
+    0 15px 1px 6px rgba(0, 0, 0, 0.3); /* Enhanced purple glow */
+  z-index: 1; /* Ensure the button is above the background */
+  text-shadow: 
+    2px 2px 4px #ffff9b, /* Increased blur for a brighter glow effect */
+    0px 0px 10px #ffff9b; /* Added a soft yellow glow to the text */
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.game-button:hover {
+  top: 2px;
+  box-shadow: 
+    0 0 20px #ffff9b, /* Stronger and larger yellow glow */
+    0 0 24px #ffff9b, /* Additional yellow glow layer */
+    0 0 18px #7339C1, /* Enhanced purple glow */
+    0 6px 1px 1px rgba(0, 0, 0, 0.3), 
+    0 8px 0 5px #452272, 
+    0 10px 0 5px #5A3BA1, 
+    0 13px 0 5px #361959, 
+    0 13px 1px 6px rgba(0, 0, 0, 0.3); /* Enhanced overall glow on hover */
+}
+
+#audio-btn {
+  background: none; /* Remove default background */
+  border: none; /* Remove default border */
+  cursor: pointer;
+  padding: 0; /* Remove default padding */
+}
+
+#audio-btn i {
+  font-size: 24px; /* Adjust icon size as needed */
+  color: #7339C1; /* Set icon color */
+}
+
+#audio-btn:hover i {
+  color: #9B5BCE; /* Optional: change color on hover */
+}

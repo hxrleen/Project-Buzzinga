@@ -14,20 +14,57 @@ body {
 .sidebar {
   background-color: #2e2e2e; /* Dark Grey Background */
   color: #fff;
+  font-size: 24px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  
   padding: 20px;
   width: 20%;
 }
 
+.text{
+  background-color: #0d0a38;
+  font-size: 22px;
+}
+
+.timerem{
+  font-size: 28px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.timer-text {
+  font-size: 24px; /* Adjust the font size as needed */
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2); /* Scale up */
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 .sidebar.left {
   border-right: 2px solid #444;
+  background-image: url('/assets/purpback.jpg');
 }
 
 .sidebar.right {
   border-left: 2px solid #444;
+  background-image: url('/assets/purpback.jpg');
+
 }
 
 .sidebar h3 {
   margin-top: 0;
+  background-color: #0d0a38;
+
 }
 
 .user-icon {
@@ -102,6 +139,32 @@ button:hover, .buzzer:hover {
   opacity: 0.8;
 }
 
+
+.name-cont{
+  padding: 12px 24px;
+  background-color: #9B3A91; /* Primary button color */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  /* Gradient background effect */
+  background-image: linear-gradient(to right, #9B3A91, #7339C1);
+  /* 3D effect for the button */
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2),
+              -3px -3px 5px rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+button:hover{
+  background-image: linear-gradient(to right, #7339C1, #9B3A91);
+box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3),
+            -4px -4px 10px rgba(255, 255, 255, 0.6),
+            0 0 15px 5px rgba(255, 255, 0, 0.7); /* Yellow glow effect */
+transform: translateY(-5px); /* Slight lift on hover */
+}
+
 /* .invite{
   color:black;
  
@@ -139,7 +202,7 @@ button:hover, .buzzer:hover {
 
 
 .invite h2{
-  color: #464676;
+  color: #000000;
 }
 
 .invite ul{

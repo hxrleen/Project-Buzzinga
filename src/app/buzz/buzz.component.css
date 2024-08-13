@@ -1,3 +1,15 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100vh; /* Double the viewport height to enable scrolling */
+    background-image: url("/assets/audience.jpg"); /* Path to your background image */
+    background-size: 120% auto; /* Make the width of the background image cover the entire screen width */
+    background-position: center top; /* Align the background image to the top center */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    overflow-y: auto; /* Allow vertical scrolling */
+  }
+  
+
 .container{
     border: 0.1rem solid black;
     display: flex;
@@ -10,13 +22,16 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
+h1 {
+    text-shadow: 2px 2px 3px rgba(255, 255, 0, 0.7);
+  }
  
 .header{
     padding: 1% 1%;
 }
 
 .header img{
-     width: 50%;
+     width: 80%;
      height: auto;
 }
 
@@ -25,49 +40,108 @@
 }
 
 .name-cont input{
-    background-color: rgb(0, 0, 0);
-    color: white;
-    padding: 2%;
-    margin: 2% 5%;
-    font-size: large;
-    border: none;
+    padding: 10px;
+    margin: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    width:60%;
+    background-color: #000000;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  
+    /* 3D effect */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2), 
+                -3px -3px 5px rgba(255, 255, 255, 0.5);
+  
+    transition: all 0.3s ease;
 }
 
+.name-cont input:focus {
+    outline: none;
+    border-color: #7339c1;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3),
+                -4px -4px 10px rgba(255, 255, 255, 0.6);
+  }
+
 .name-cont button{
-    padding: 2%;
-    font-size: large;
-    background-color: rgb(64, 0, 123);
-    cursor:pointer;
-    color:white;
+    padding: 12px 24px;
+    background-color: #9b3a91; /* Primary button color */
+    color: #ffffa9;
     border: none;
-    border-radius: 5%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    
+    /* Gradient background effect */
+    background-image: linear-gradient(to right, #9b3a91, #7339c1);
+    
+    /* 3D effect for the button */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2), 
+                -3px -3px 5px rgba(255, 255, 255, 0.5);
+  
+    transition: all 0.3s ease;
 }
 
 button:hover{
-    background-color: rgb(83, 12, 150);
-    transform: scale(1.09);
+    background-image: linear-gradient(to right, #7339c1, #9b3a91);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3),
+              -4px -4px 10px rgba(255, 255, 255, 0.6),
+              0 0 15px 5px rgba(255, 255, 0, 0.7); /* Yellow glow effect */
+  transform: translateY(-5px); /* Slight lift on hover */
 }
 
 .room-cont input{
-    background-color: rgb(0, 0, 0);
-    color: white;
-    padding: 2%;
-    margin: 2% 5%;
-    font-size: large;
+    padding: 10px;
+    margin: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    width:60%;
+    background-color: #000000;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  
+    /* 3D effect */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2), 
+                -3px -3px 5px rgba(255, 255, 255, 0.5);
+  
+    transition: all 0.3s ease;
 }
 
 .room-cont button{
-    padding: 2%;
-    font-size: large;
-    background-color: rgb(64, 0, 123);
-    cursor:pointer;
-    color:white;
+    padding: 12px 24px;
+    background-color: #9b3a91; /* Primary button color */
+    color:  #ffffa9;
     border: none;
-    border-radius: 5%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    
+    /* Gradient background effect */
+    background-image: linear-gradient(to right, #9b3a91, #7339c1);
+    
+    /* 3D effect for the button */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2), 
+                -3px -3px 5px rgba(255, 255, 255, 0.5);
+  
+    transition: all 0.3s ease;
 }
 
 .divider {
     border: 0;
     height: 3px;
-    background: #e39292;
+    background: #000000;
   }
+
+
+  
+
+
+  

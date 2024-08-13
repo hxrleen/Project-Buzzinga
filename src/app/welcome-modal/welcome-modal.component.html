@@ -1,7 +1,12 @@
 <div *ngIf="showModal" class="modal">
-    <div class="modal-content">
-      <h2>Welcome, {{ userName | uppercase}} !</h2>
-      <h3>Your name has been set successfully.</h3>
-    </div>
+  <div class="modal-content">
+    <h2 *ngIf="modalType === 'welcome'">Welcome, {{ userName | uppercase }}!</h2>
+    <h3 *ngIf="modalType === 'welcome'">Your name has been set successfully.</h3>
+    
+    <h2 *ngIf="modalType === 'roomSelection'">Select Room Type</h2>
+    <button *ngIf="modalType === 'roomSelection'" (click)="createRoom('single')" class="game-button">Create Room (Single Buzz)</button><br/><br>
+    <button *ngIf="modalType === 'roomSelection'" (click)="createRoom('multiple')" class="game-button">Create Room (Multiple Buzzes)</button>
   </div>
-  
+
+
+</div>

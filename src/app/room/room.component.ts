@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BuzzService } from '../buzz.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
+import confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-room',
@@ -17,7 +18,7 @@ export class RoomComponent implements OnInit {
   notifications: string[] = [];
   audioPath = 'assets/chintapak.mp3';
   isCurrentUserHost = false;
-  gameRounds: number | null = null;
+  gameRounds: number = 0;
 
   timer: number = 30;
   isTimerRunning: boolean = false;
@@ -68,6 +69,7 @@ export class RoomComponent implements OnInit {
 
     this.buzzService.getBuzzerEvents().subscribe((events: any[]) => {
       this.rounds = [];
+
       if (events.length) {
         for (let i = 0; i < events.length; i++) {
           if (this.rounds[events[i]['round'] - 1]) {
@@ -78,11 +80,6 @@ export class RoomComponent implements OnInit {
           }
         }
       }
-      console.log(this.rounds);
-      // this.rounds[this.currentRound - 1] = events;
-      // console.log(events);
-
-      // this.buzzerEvents = events;
     });
 
     this.buzzService.getNotifications().subscribe((notification: string) => {
@@ -98,21 +95,12 @@ export class RoomComponent implements OnInit {
     });
   }
 
-  // pressBuzzer() {
-  //   this.buzzService.pressBuzzer();
-  //   const audio = new Audio(this.audioPath);
-  //   audio.play();
-  //   audio.loop = true;
-  //   setTimeout(() => {
-  //     audio.pause();
-  //     audio.currentTime = 0;
-  //   }, 3000);
-  // }
-
   pressBuzzer() {
     if (this.isTimerRunning && !this.hasPressedBuzzer) {
       this.buzzService.pressBuzzer();
       this.hasPressedBuzzer = true; // Mark buzzer as pressed
+
+      // Play sound
       const audio = new Audio(this.audioPath);
       audio.play();
       audio.loop = true;
@@ -120,6 +108,14 @@ export class RoomComponent implements OnInit {
         audio.pause();
         audio.currentTime = 0;
       }, 3000);
+
+      // Trigger confetti
+      confetti({
+        particleCount: 1200,
+        spread: 140,
+        origin: { x: 0.5, y: 0.4 },
+      });
+    } else if (!this.isTimerRunning && this.currentRound > this.gameRounds) {
     }
   }
 
@@ -139,11 +135,20 @@ export class RoomComponent implements OnInit {
   }
 
   startTimer() {
-    if (this.roomId) {
+    if (this.roomId && this.currentRound <= this.gameRounds) {
       this.isTimerRunning = true;
-      this.buzzService.startTimer(this.roomId);
+      this.buzzService.startTimer(this.roomId, this.gameRounds);
+    } else {
+      this.isTimerRunning = false;
     }
   }
+
+  // startTimer() {
+  //   if (this.roomId) {
+  //     this.isTimerRunning = true;
+  //     this.buzzService.startTimer(this.roomId);
+  //   }
+  // }
 
   leaveRoom() {
     const currentUser = this.users.find(

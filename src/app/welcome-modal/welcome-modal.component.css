@@ -1,20 +1,63 @@
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    color:rgb(63, 7, 116);
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content{
+  background-color: #ffffa9;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  color:rgb(63, 7, 116);
+}
+.game-button {
+  position: relative;
+  top: 0;
+  cursor: pointer;
+  text-decoration: none !important;
+  outline: none !important;
+  font-family: 'Carter One', sans-serif;
+  font-size: 26px; /* Increased font size */
+  line-height: 1.5em;
+  letter-spacing: .1em;
+  color: #FFFF91; /* Brighter yellow text color */
+  border: none;
+  border-radius: 8px; /* Slightly larger rounded corners */
+  padding: 10px 15px; /* Increased padding for a wider button */
+  background: repeating-linear-gradient(45deg, #7339C1, #7339C1 5px, #6633A7 5px, #6633A7 10px); /* Shades of purple */
+  animation: buttonAnimation 1s infinite;
+  margin-top: 50px; /* Increased space above the button to move it down */
+  box-shadow:
+    0 0 10px #FFFF9B, /* Brighter yellow glow */
+    0 0 12px #7339C1, /* Purple glow */
+    0 8px 1px 1px rgba(0, 0, 0, 0.3),
+    0 10px 0 5px #452272,
+    0 12px 0 5px #5A3BA1,
+    0 15px 0 5px #361959,
+    0 15px 1px 6px rgba(0, 0, 0, 0.3); /* Enhanced purple glow */
+  z-index: 1; /* Ensure the button is above the background */
+  text-shadow:
+    2px 2px 4px #FFFF9B, /* Increased blur for a brighter glow effect */
+    0px 0px 10px #FFFF9B; /* Added a soft yellow glow to the text */
+  transition: box-shadow 0.3s ease-in-out;
+}
+.game-button:hover {
+  top: 2px;
+  box-shadow:
+    0 0 20px #FFFF9B, /* Stronger and larger yellow glow */
+    0 0 24px #FFFF9B, /* Additional yellow glow layer */
+    0 0 18px #7339C1, /* Enhanced purple glow */
+    0 6px 1px 1px rgba(0, 0, 0, 0.3),
+    0 8px 0 5px #452272,
+    0 10px 0 5px #5A3BA1,
+    0 13px 0 5px #361959,
+    0 13px 1px 6px rgba(0, 0, 0, 0.3); /* Enhanced overall glow on hover */
+}
+
